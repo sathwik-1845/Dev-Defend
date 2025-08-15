@@ -22,11 +22,14 @@ RISKY_PATTERNS = [
     (r"eval\\(", "Code Injection", 4),
     (r"\\.format\\(.+\\)\\s*%\\s*", "String Format Injection", 2),
     (r"SELECT\\s+.*\\s+FROM\\s+.*\\+\\s*", "SQL Injection", 4),
-    (r"password\\s*=\\s*['\\"]?[^'\\"]+['\\"]?", "Hardcoded Credential", 3),
+    # (r'password\\s*=\\s*['\\"]?[^'\\"]+['\\"]?', "Hardcoded Credential", 3),
+    (r'password\\s*=\\s*["\']?[^"\']+["\']?', "Hardcoded Credential", 3),
+
     (r"subprocess\\.(Popen|call)\\(.*shell\\s*=\\s*True", "Shell Injection", 4),
     (r"pickle\\.loads\\(", "Insecure Deserialization", 3),
     (r"requests\\.(get|post)\\(.*verify\\s*=\\s*False", "TLS Verification Disabled", 2),
-    (r"open\\(.+['\\"](w|a)['\\"]\\)", "Insecure File Write", 2),
+    # (r"open\\(.+['\\"](w|a)['\\"]\\)", "Insecure File Write", 2),
+    (r'open\\(.+[\'"](w|a)[\'"]\\)', "Insecure File Write", 2),
 ]
 
 def codebert_like_score(code: str) -> list[Finding]:
